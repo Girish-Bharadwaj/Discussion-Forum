@@ -1,0 +1,37 @@
+.postdetailswindow{
+    margin:auto;
+    margin-top: 20px;
+    background-color: white;
+    width: 70%;
+    padding: 2px;
+    border-radius: 5px;
+    height: auto;
+}
+.postWindow{
+    display: flex;
+}
+.author{
+    font-size: 1em;
+}
+.author:hover{
+    font-size: 1em;
+}
+.left{
+    background-color: white;
+}
+.writeComments{
+    width: 90%;
+    margin:auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+h3{
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+textarea{
+    resize: vertical;
+    font-size: 1.3em;
+    padding: 5px;
+    outline: none;
+}

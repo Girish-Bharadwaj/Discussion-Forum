@@ -1,0 +1,85 @@
+.window{
+    background-color: white;
+    width: 65%;
+    padding-bottom: 10px;
+    min-height: 197.76px;
+    max-height: 197.76px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    height: 34vh;
+    cursor: pointer;
+    border: 1px solid rgb(165, 162, 162);
+    color: black;
+}
+.window:hover{
+    border: 1px solid black;
+    background-color: white;
+    padding-bottom: 10px;
+    width: 65%;
+    min-height: 197.76px;
+    max-height: 197.76px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    height: 34vh;
+    cursor: pointer;
+}
+.left{
+    width: 5%;
+    height: 100%;
+    background-color: #edeff1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    color: black;
+}
+.right{
+    padding-left: 10px;
+    color: black;
+    padding-top: 10px;
+}
+.upvotes{
+    font-size: 1.2em;
+    font-weight: 500;
+}
+.author{
+    color: gray;
+    font-size: 0.8em;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.author:hover{
+    color: black;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+.tag{
+    background-color: rgb(255, 102, 172);
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 0.9em;border-radius: 10px;
+    text-align: center;
+    margin-right: 8px;
+    font-weight: 500;
+}
+.heading{
+    display: inline;
+    font-weight: 600;
+    color: black;
+}
+.body{
+    color: black;
+    margin-top: 10px;
+}
+.actions{
+    display: flex;
+    margin-top: 8px;
+    align-items: center;
+}
+.commentsCount{
+    margin-bottom: 3px;
+    font-weight: 500;
+    color: gray;
+}
