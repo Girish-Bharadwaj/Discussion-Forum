@@ -1,0 +1,47 @@
+.profileDetails{
+    position: fixed;
+    top: 15vh;
+    right: 13%;
+    width: 20%;
+    background-color: white;
+    z-index: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+.profileDetails .name{
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 3px;
+}
+.bio{
+    font-size: 18px;
+    font-weight: 500;
+    font-style: italic;
+}
+.headingI{
+    margin-top: 13px;
+    width: 100%;
+    padding-left: 13px;
+    font-weight: 400;
+    font-size: 17px;
+}
+.profileDetails .interests{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+.interests .topics{
+    background-color: rgb(99, 47, 167);
+    width: fit-content;
+    height: fit-content;
+    padding: 3px 10px;
+    border: none;
+    margin: 3px 3px;
+    border-radius: 15px;
+    color: white;
+}
