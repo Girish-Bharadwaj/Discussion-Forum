@@ -1,14 +1,21 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Navbar from "../Navbar/Navbar"
 import Posts from "../Posts/Posts"
+import { getMyposts } from '../actions/posts'
 import { Avatar } from '@mui/material'
 import './UserProfile.css'
+import { useDispatch,useSelector } from 'react-redux'
 function UserProfile() {
+    const dispatch=useDispatch();
+    useEffect(() => {
+        dispatch(getMyposts())
+    }, [])
+    const {posts}=useSelector((state)=>state.posts)
     return (
         <>
             <Navbar/>
             <div className="home">
-                <Posts/>
+                <Posts posts={posts}/>
             </div>
             <div className="profileDetails">
                 <Avatar sx={{width:"54px",height:"54px"}} />
