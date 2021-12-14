@@ -10,9 +10,9 @@ This repository has the front end part of the website.
 
 ## Screen shots
 
-<img src="/screenshots/login.jpg" > <img src="/screenshots/home.jpg" >
-<img src="/screenshots/trending.jpg"> <img src="/screenshots/details.jpg" >
+<img src="/screenshots/login.png" > <img src="/screenshots/home.png" >
+<img src="/screenshots/comments.png"> <img src="/screenshots/details.png" >
 
-<img src="/screenshots/profile.jpg" >
+<img src="/screenshots/profile.png" >
 
 
