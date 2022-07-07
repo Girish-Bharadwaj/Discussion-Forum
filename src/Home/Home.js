@@ -112,6 +112,11 @@ function Home() {
             rows={5}
             variant="outlined"
           />
+          <TextField
+            style={{ width: "100%", marginBottom: "10px" }}
+            label="Tag"
+            variant="outlined"
+          />
           <Button variant="contained">Create Post</Button>
         </Box>
       </Modal>
