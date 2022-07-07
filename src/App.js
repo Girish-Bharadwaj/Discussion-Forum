@@ -12,7 +12,7 @@ function App() {
         <Routes>
           {/* <Route path="/" element={<Login/>}/> */}
           <Route path="/" element={<Home />} />
-          <Route path="/postDetails" element={<PostDetails />} />
+          <Route path="/postDetails/:id" element={<PostDetails />} />
           <Route path="/userprofile" element={<UserProfile />} />
         </Routes>
       </BrowserRouter>

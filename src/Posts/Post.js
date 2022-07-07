@@ -24,7 +24,7 @@ function Post({ post }) {
           <span className="time">{post.date}</span>
         </div>
         <span className="tag">{post.tag}</span>
-        <Link to="/postDetails">
+        <Link to={`/postDetails/${post._id}`}>
           <h3 className="heading">{post.heading}</h3>
           <div className="body">{post.body.substr(0, 360) + "..."}</div>
         </Link>

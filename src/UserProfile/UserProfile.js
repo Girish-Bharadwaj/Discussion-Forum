@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import "./UserProfile.css";
 import { Edit } from "@mui/icons-material";
+import axios from "../axios/axiosConfig";
 import TagsInput from "../TagsInput/TagsInput";
 
 function UserProfile() {
@@ -27,42 +28,68 @@ function UserProfile() {
     boxShadow: 24,
     p: 4,
   };
-  const posts = [
-    {
-      id: 1,
-      title: "Hello World",
-      body: "This is a post",
-      votesCount: 10,
-      userID: "Girish",
-      date: "2020-01-01",
-      comments: [],
-    },
-  ];
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [interestedTags, setInterestedTags] = useState([]);
-  return (
+  const [profile, setProfile] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [editProfile, setEditProfile] = useState({
+    name: "",
+    bio: "",
+  });
+  console.log(interestedTags);
+  useEffect(() => {
+    setEditProfile({
+      name: profile.username,
+      bio: profile.bio,
+    });
+    setInterestedTags(profile.tags);
+  }, [profile]);
+  useEffect(async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/userbyid/62c71681966776f57c3ed9f0`
+      );
+      setProfile(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  }, []);
+  const updateProfile = async () => {
+    handleClose();
+    setIsLoading(true);
+    try {
+      await axios.put(`http://localhost:5000/profile`, {
+        username: editProfile.name,
+        bio: editProfile.bio,
+        tags: interestedTags,
+      });
+      setProfile({ ...profile, ...editProfile, tags: interestedTags });
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  };
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
     <>
       <Navbar />
       <div className="home">
-        {" "}
-        <Posts posts={posts} />{" "}
+        <Posts posts={profile.postsCreated} />
       </div>
       <div className="profileDetails">
         <Avatar sx={{ width: "54px", height: "54px" }} />
-        <div className="name">Girish Bharadwaj</div>
-        <div className="bio">Go write yours</div>
+        <div className="name">{profile.username}</div>
+        <div className="bio">{profile.bio}</div>
         <div className="headingI">Interested in:</div>
         <div className="interests">
-          <span className="topics">Android</span>
-          <span className="topics">React</span>
-          <span className="topics">Android</span>
-          <span className="topics">React</span>
-          <span className="topics">Android</span>
-          <span className="topics">React</span>
-          <span className="topics">Android</span>
-          <span className="topics">React</span>
+          {profile?.tags?.map((tag) => (
+            <span className="topics">{tag}</span>
+          ))}
         </div>
         <IconButton onClick={handleOpen}>
           <Edit />
@@ -89,11 +116,19 @@ function UserProfile() {
             style={{ width: "100%" }}
             label="Name"
             variant="outlined"
+            value={editProfile.name}
+            onChange={(e) =>
+              setEditProfile({ ...editProfile, name: e.target.value })
+            }
           />
           <TextField
             style={{ width: "100%", marginTop: "10px", marginBottom: "15px" }}
             label="Bio"
             variant="outlined"
+            value={editProfile.bio}
+            onChange={(e) =>
+              setEditProfile({ ...editProfile, bio: e.target.value })
+            }
           />
           <TagsInput
             selectedTags={(items) => {
@@ -106,7 +141,11 @@ function UserProfile() {
             placeholder="Add Topics"
             label="Interested topics"
           />
-          <Button style={{ marginTop: "10px" }} variant="contained">
+          <Button
+            onClick={updateProfile}
+            style={{ marginTop: "10px" }}
+            variant="contained"
+          >
             Update
           </Button>
         </Box>
