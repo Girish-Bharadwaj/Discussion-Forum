@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from "react";
 import "./Comments.css";
 function Comments({ comments }) {
@@ -14,7 +15,7 @@ function Comments({ comments }) {
             <div className="postedName">
               <p>{comment.user.username}</p>
               <div className="divider"></div>
-              <p>{comment.date}</p>
+              <p>{moment(comment.date).fromNow()}</p>
             </div>
           </div>
           <div className="body">{comment.content}</div>
