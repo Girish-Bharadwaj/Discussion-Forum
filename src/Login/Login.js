@@ -36,9 +36,9 @@ function Login() {
   const signup = async () => {
     try {
       const response = await axios.post("/signup", {
-        email: email,
+        emailId: email,
         password: password,
-        name: name,
+        username: name,
       });
       if (response.data) {
         localStorage.setItem("token", response.data.token);
