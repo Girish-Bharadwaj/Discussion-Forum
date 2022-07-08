@@ -51,7 +51,7 @@ function Navbar() {
           </div>
         </div>
       ) : (
-        <div style={{ height: "80%" }}>
+        <div>
           <Link to={`/`}>
             <Button variant="outlined">
               <div className="profile">
