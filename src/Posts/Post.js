@@ -6,6 +6,7 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ShareIcon from "@mui/icons-material/Share";
 import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
+import moment from "moment";
 function Post({ post }) {
   return (
     <div className="window">
@@ -19,10 +20,12 @@ function Post({ post }) {
         </IconButton>
       </div>
       <div className="right">
-        <div className="author">
-          Posted by {post.createdBy.username} on{" "}
-          <span className="time">{post.date}</span>
-        </div>
+        <Link to={`/userprofile/${post.createdBy._id}`}>
+          <div className="author">
+            Posted by {post.createdBy.username}{" "}
+            <span className="time">{moment(post.date).fromNow()}</span>
+          </div>
+        </Link>
         <span className="tag">{post.tag}</span>
         <Link to={`/postDetails/${post._id}`}>
           <h3 className="heading">{post.heading}</h3>

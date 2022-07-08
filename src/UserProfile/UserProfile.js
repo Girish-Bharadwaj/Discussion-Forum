@@ -5,6 +5,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   IconButton,
   Modal,
   TextField,
@@ -14,6 +15,8 @@ import "./UserProfile.css";
 import { Edit } from "@mui/icons-material";
 import axios from "../axios/axiosConfig";
 import TagsInput from "../TagsInput/TagsInput";
+import { useParams, useNavigate } from "react-router-dom";
+import { decode, logout } from "../functions";
 
 function UserProfile() {
   const style = {
@@ -28,6 +31,7 @@ function UserProfile() {
     boxShadow: 24,
     p: 4,
   };
+  const { id } = useParams();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -38,7 +42,6 @@ function UserProfile() {
     name: "",
     bio: "",
   });
-  console.log(interestedTags);
   useEffect(() => {
     setEditProfile({
       name: profile.username,
@@ -49,20 +52,18 @@ function UserProfile() {
   useEffect(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(
-        `http://localhost:5000/userbyid/62c71681966776f57c3ed9f0`
-      );
+      const response = await axios.get(`userbyid/${id}`);
       setProfile(response.data);
     } catch (error) {
       console.log(error);
     }
     setIsLoading(false);
-  }, []);
+  }, [id]);
   const updateProfile = async () => {
     handleClose();
     setIsLoading(true);
     try {
-      await axios.put(`http://localhost:5000/profile`, {
+      await axios.put(`profile`, {
         username: editProfile.name,
         bio: editProfile.bio,
         tags: interestedTags,
@@ -73,83 +74,119 @@ function UserProfile() {
     }
     setIsLoading(false);
   };
-  return isLoading ? (
-    <div>Loading...</div>
-  ) : (
+  const decoded = decode();
+  const navigate = useNavigate();
+  return (
     <>
       <Navbar />
-      <div className="home">
-        <Posts posts={profile.postsCreated} />
-      </div>
-      <div className="profileDetails">
-        <Avatar sx={{ width: "54px", height: "54px" }} />
-        <div className="name">{profile.username}</div>
-        <div className="bio">{profile.bio}</div>
-        <div className="headingI">Interested in:</div>
-        <div className="interests">
-          {profile?.tags?.map((tag) => (
-            <span className="topics">{tag}</span>
-          ))}
+
+      {isLoading ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+            width: "100vw",
+          }}
+        >
+          <CircularProgress />
         </div>
-        <IconButton onClick={handleOpen}>
-          <Edit />
-        </IconButton>
-      </div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography
-            style={{
-              marginBottom: "10px",
-            }}
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
+      ) : (
+        <>
+          <div className="profileDetails">
+            <Avatar sx={{ width: "54px", height: "54px" }} />
+            <div className="name">{profile.username}</div>
+            <div className="bio">{profile.bio}</div>
+            <div className="headingI">Interested in:</div>
+            <div className="interests">
+              {profile?.tags?.map((tag) => (
+                <span className="topics">{tag}</span>
+              ))}
+            </div>
+            {decoded?._id === id ? (
+              <>
+                <IconButton onClick={handleOpen}>
+                  <Edit />
+                </IconButton>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    logout();
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="home" style={{ flexDirection: "column" }}>
+            <Posts posts={profile.postsCreated} />
+          </div>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
           >
-            Edit profile details
-          </Typography>
-          <TextField
-            style={{ width: "100%" }}
-            label="Name"
-            variant="outlined"
-            value={editProfile.name}
-            onChange={(e) =>
-              setEditProfile({ ...editProfile, name: e.target.value })
-            }
-          />
-          <TextField
-            style={{ width: "100%", marginTop: "10px", marginBottom: "15px" }}
-            label="Bio"
-            variant="outlined"
-            value={editProfile.bio}
-            onChange={(e) =>
-              setEditProfile({ ...editProfile, bio: e.target.value })
-            }
-          />
-          <TagsInput
-            selectedTags={(items) => {
-              setInterestedTags(items);
-            }}
-            fullWidth
-            variant="outlined"
-            id="tags"
-            name="Interested Topics"
-            placeholder="Add Topics"
-            label="Interested topics"
-          />
-          <Button
-            onClick={updateProfile}
-            style={{ marginTop: "10px" }}
-            variant="contained"
-          >
-            Update
-          </Button>
-        </Box>
-      </Modal>
+            <Box sx={style}>
+              <Typography
+                style={{
+                  marginBottom: "10px",
+                }}
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+              >
+                Edit profile details
+              </Typography>
+              <TextField
+                style={{ width: "100%" }}
+                label="Name"
+                variant="outlined"
+                value={editProfile.name}
+                onChange={(e) =>
+                  setEditProfile({ ...editProfile, name: e.target.value })
+                }
+              />
+              <TextField
+                style={{
+                  width: "100%",
+                  marginTop: "10px",
+                  marginBottom: "15px",
+                }}
+                label="Bio"
+                variant="outlined"
+                value={editProfile.bio}
+                onChange={(e) =>
+                  setEditProfile({ ...editProfile, bio: e.target.value })
+                }
+              />
+              <TagsInput
+                selectedTags={(items) => {
+                  setInterestedTags(items);
+                }}
+                fullWidth
+                variant="outlined"
+                id="tags"
+                name="Interested Topics"
+                placeholder="Add Topics"
+                label="Interested topics"
+              />
+              <Button
+                onClick={updateProfile}
+                style={{ marginTop: "10px" }}
+                variant="contained"
+              >
+                Update
+              </Button>
+            </Box>
+          </Modal>
+        </>
+      )}
     </>
   );
 }

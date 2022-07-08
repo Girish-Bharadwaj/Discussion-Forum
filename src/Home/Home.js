@@ -6,7 +6,16 @@ import { Link } from "react-router-dom";
 import Posts from "../Posts/Posts";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "../axios/axiosConfig";
-import { Box, Button, Fab, Modal, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Fab,
+  Modal,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { decode } from "../functions";
 
 const style = {
   position: "absolute",
@@ -21,6 +30,7 @@ const style = {
   p: 4,
 };
 function Home() {
+  const decoded = decode();
   const [isLoading, setIsLoading] = useState(false);
   const [topic, setTopic] = useState("Best");
   const [open, setOpen] = React.useState(false);
@@ -32,26 +42,27 @@ function Home() {
     body: "",
     tag: "",
   });
-  useEffect(async () => {
+  const fetchDetails = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`http://localhost:5000/post/get`);
+      const response = await axios.get(`/post/get`);
       setPosts(response.data);
     } catch (error) {
       console.log(error);
     }
     setIsLoading(false);
-  }, []);
+  };
+  useEffect(fetchDetails, []);
   const createPost = async () => {
     handleClose();
     setIsLoading(true);
     try {
-      const response = await axios.post(`http://localhost:5000/post/create`, {
+      const response = await axios.post(`/post/create`, {
         heading: newPost.heading,
         body: newPost.body,
         tag: newPost.tag,
       });
-      setPosts([...posts, response.data]);
+      fetchDetails();
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +72,17 @@ function Home() {
     <>
       <Navbar />
       {isLoading ? (
-        <h1>Loading</h1>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+            width: "100vw",
+          }}
+        >
+          <CircularProgress />
+        </div>
       ) : (
         <div className="home">
           <div style={{ width: "100%" }}>
@@ -97,11 +118,15 @@ function Home() {
             <Posts posts={posts} />
           </div>
           {/* <div className="topGroups">hello android</div> */}
-          <div className="fab">
-            <Fab onClick={handleOpen} color="secondary" aria-label="edit">
-              <EditIcon />
-            </Fab>
-          </div>
+          {decoded ? (
+            <div className="fab">
+              <Fab onClick={handleOpen} color="secondary" aria-label="edit">
+                <EditIcon />
+              </Fab>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       )}
       <Modal
