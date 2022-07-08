@@ -1,32 +1,32 @@
-.comments{
-    width: 70%;
-    margin: auto;
-    margin-top: 30px;
+.comments {
+  width: 90%;
+  margin: auto;
+  margin-top: 30px;
 }
-.postedName{
-    display: flex;
-    align-items: center;
+.postedName {
+  display: flex;
+  align-items: center;
 }
-.divider{
-    content: "";
-    height: 8px;
-    width: 8px;
-    border-radius: 50px;
-    background-color: gray;
-    margin-left: 5px;
-    margin-right: 5px;
+.divider {
+  content: "";
+  height: 8px;
+  width: 8px;
+  border-radius: 50px;
+  background-color: gray;
+  margin-left: 5px;
+  margin-right: 5px;
 }
-.comment{
-    background-color: white;
-    padding: 20px;
-    padding-top: 10px;
-    margin-bottom: 10px;
-border-radius: 5px;
+.comment {
+  background-color: white;
+  padding: 20px;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
 }
-.authorComment img{
-    width: 40px;
-    margin-right: 10px;
+.authorComment img {
+  width: 40px;
+  margin-right: 10px;
 }
-.authorComment{
-    display: flex;
+.authorComment {
+  display: flex;
 }

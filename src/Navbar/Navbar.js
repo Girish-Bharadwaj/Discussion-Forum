@@ -19,7 +19,7 @@ function Navbar() {
   return (
     <div className="navbar">
       <Link to="/">
-        <h2 style={{ color: "black" }}>Discussracevio</h2>
+        <h2 style={{ color: "black" }}>Discussion Forum</h2>
       </Link>
       {decoded?.username ? (
         <div
