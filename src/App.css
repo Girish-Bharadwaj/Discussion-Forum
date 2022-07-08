@@ -1,7 +1,11 @@
-*{
-    margin: 0px;
-    padding: 0px;
+* {
+  margin: 0px;
+  padding: 0px;
 }
-body{
-    background-color: #DAE0E6
+body {
+  background-color: #dae0e6;
+}
+a {
+  text-decoration: none;
+  color: #000;
 }
