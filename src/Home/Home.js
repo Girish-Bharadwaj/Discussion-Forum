@@ -6,6 +6,10 @@ import { Link } from "react-router-dom";
 import Posts from "../Posts/Posts";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "../axios/axiosConfig";
+import ReactMde from "react-mde";
+import * as Showdown from "showdown";
+import "react-mde/lib/styles/css/react-mde-all.css";
+
 import {
   Box,
   Button,
@@ -22,13 +26,20 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "80%",
   bgcolor: "background.paper",
   border: "2px solid #000",
   borderRadius: "4px",
   boxShadow: 24,
   p: 4,
 };
+
+const converter = new Showdown.Converter({
+  tables: true,
+  simplifiedAutoLink: true,
+  strikethrough: true,
+  tasklists: true,
+});
 function Home() {
   const decoded = decode();
   const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +48,7 @@ function Home() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [posts, setPosts] = useState([]);
+  const [selectedTab, setSelectedTab] = useState("write");
   const [newPost, setNewPost] = useState({
     heading: "",
     body: "",
@@ -147,7 +159,7 @@ function Home() {
             Create Post
           </Typography>
           <TextField
-            style={{ width: "100%" }}
+            style={{ width: "100%", marginBottom: "10px" }}
             label="Title"
             variant="outlined"
             value={newPost.heading}
@@ -155,19 +167,19 @@ function Home() {
               setNewPost({ ...newPost, heading: e.target.value });
             }}
           />
-          <TextField
-            style={{ width: "100%", marginTop: "10px", marginBottom: "10px" }}
-            label="Body"
-            multiline
-            rows={5}
-            variant="outlined"
+          <ReactMde
             value={newPost.body}
-            onChange={(e) => {
-              setNewPost({ ...newPost, body: e.target.value });
+            onChange={(value) => {
+              setNewPost({ ...newPost, body: value });
             }}
+            selectedTab={selectedTab}
+            onTabChange={setSelectedTab}
+            generateMarkdownPreview={(markdown) =>
+              Promise.resolve(converter.makeHtml(markdown))
+            }
           />
           <TextField
-            style={{ width: "100%", marginBottom: "10px" }}
+            style={{ width: "100%", marginTop: "10px", marginBottom: "10px" }}
             label="Tag"
             variant="outlined"
             value={newPost.tag}

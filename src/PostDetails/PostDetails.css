@@ -35,3 +35,9 @@ textarea {
   padding: 5px;
   outline: none;
 }
+.mde-tabs .selected {
+  padding: 5px 10px;
+  background-color: #1976d2 !important;
+  color: white;
+  border-radius: 3px !important;
+}

@@ -24,7 +24,7 @@ function UserProfile() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: "80%",
     bgcolor: "background.paper",
     border: "2px solid #000",
     borderRadius: "4px",
@@ -105,20 +105,29 @@ function UserProfile() {
               ))}
             </div>
             {decoded?._id === id ? (
-              <>
-                <IconButton onClick={handleOpen}>
-                  <Edit />
-                </IconButton>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: "10px",
+                }}
+              >
+                <Button variant="contained" onClick={handleOpen}>
+                  Edit
+                </Button>
                 <Button
                   variant="contained"
+                  color="error"
                   onClick={() => {
                     logout();
                     navigate("/");
                   }}
+                  style={{ marginLeft: "10px" }}
                 >
                   Logout
                 </Button>
-              </>
+              </div>
             ) : (
               <></>
             )}

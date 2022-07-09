@@ -12,11 +12,23 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { decode } from "../functions";
 import moment from "moment";
+import ReactMde from "react-mde";
+import * as Showdown from "showdown";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+const converter = new Showdown.Converter({
+  tables: true,
+  simplifiedAutoLink: true,
+  strikethrough: true,
+  tasklists: true,
+});
 function PostDetails() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [post, setPost] = useState({});
   const [commentBody, setCommentBody] = useState("");
+  const [selectedTab, setSelectedTab] = useState("write");
   useEffect(async () => {
     setIsLoading(true);
     try {
@@ -84,7 +96,11 @@ function PostDetails() {
                 </Link>
                 <span className="tag">{post.tag}</span>
                 <h3 className="heading">{post.heading}</h3>
-                <div className="body">{post.body}</div>
+                <ReactMarkdown
+                  className="body"
+                  children={post.body}
+                  remarkPlugins={[remarkGfm]}
+                />
                 <div className="actions">
                   <IconButton>
                     <ChatBubbleOutlineIcon />
@@ -100,17 +116,15 @@ function PostDetails() {
             </div>
             <div className="writeComments">
               <h3>Write Comments</h3>
-              <TextField
-                multiline
+              <ReactMde
                 value={commentBody}
-                name="comment"
-                id="comment"
-                rows="10"
-                onChange={(e) => setCommentBody(e.target.value)}
-                style={{
-                  width: "100%",
-                }}
-              ></TextField>
+                onChange={setCommentBody}
+                selectedTab={selectedTab}
+                onTabChange={setSelectedTab}
+                generateMarkdownPreview={(markdown) =>
+                  Promise.resolve(converter.makeHtml(markdown))
+                }
+              />
               <Button onClick={publishComment}>Send</Button>
             </div>
           </div>

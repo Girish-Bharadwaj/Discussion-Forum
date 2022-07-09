@@ -7,6 +7,9 @@ import ShareIcon from "@mui/icons-material/Share";
 import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
 function Post({ post }) {
   return (
     <div className="window">
@@ -29,7 +32,11 @@ function Post({ post }) {
         <span className="tag">{post.tag}</span>
         <Link to={`/postDetails/${post._id}`}>
           <h3 className="heading">{post.heading}</h3>
-          <div className="body">{post.body.substr(0, 360) + "..."}</div>
+          {/* <div className="body">{post.body.substr(0, 360) + "..."}</div> */}
+          <ReactMarkdown
+            children={post.body.substr(0, 360) + "..."}
+            remarkPlugins={[remarkGfm]}
+          />
         </Link>
         <div className="actions">
           <IconButton>
